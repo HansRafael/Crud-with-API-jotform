@@ -1,0 +1,17 @@
+<tr>
+    <td><%= 1 %></td>
+    <td><%= users.name %></td>
+    <% for(var j = 0; j < users.url.length; j++) { %>
+        <td style="display: flex"><%= users.url[j] %></td>
+    <% } %>
+    <td><%= users.cpf %></td>
+    <td><%= users.status %></td>
+    <td>
+        <a href="/update-user?id=<%= users._id%>" class="btn border-shadow update">
+            <span class="text-gradient"><i class="fas fa-pencil-alt"></i></span>
+        </a>
+        <a class="btn border-shadow delete" data-id=<%= users._id%> >
+            <span class="text-gradient"><i class="fas fa-times"></i></span>
+        </a>
+    </td>
+</tr>

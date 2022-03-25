@@ -1,0 +1,50 @@
+ <!-- form handling -->
+ <form action="/api/users" method="POST" id="add_user">
+    <div class="new_user">
+        <div class="form-group">
+            <label for="name" class="text-light">Nome</label>
+            <input type="hidden" name="id" value="">
+            <input type="text" name="name" value="" required placeholder="João Pedro"
+            oninvalid="this.setCustomValidity('O nome é obrigatório')"
+            oninput="this.setCustomValidity('')">
+        </div>
+        <div class="form-group">
+            <label for="cpf" class="text-light">CPF</label>
+            <input type="text" name="cpf" value="" required placeholder="ex: 11122233300"
+            pattern="[0-9]{11}"
+            oninvalid="this.setCustomValidity('Digite um CPF válido')"
+            oninput="this.setCustomValidity('')">
+        </div>
+
+        <!--Alterar a essa parte p pegar mais URLs-->
+
+        <div class="form-group">
+            <label for="url" class="text-light">Url do vídeo</label>
+            <button type="button" class="addService btn">Add More URLs</button>
+            <button type="button" class="removeService btn">Remove URLs</button>
+            <input type="text" name="url" value="" required placeholder="youtube.com/url"
+            oninvalid="this.setCustomValidity('Pelo menos uma URL é necessária')"
+            oninput="this.setCustomValidity('')">
+            
+        </div>
+
+
+
+        <div class="form-group">
+            <label for="gender" class="text-light">Status</label>
+            <div class="radio inline">
+                <input type="radio" id="radio-4" name="status" value="Active" >
+                <label for="radio-4" class="radio-label">Active</label>
+            </div>
+            <div class="radio inline">
+                <input type="radio" id="radio-5" name="status" value="Inactive" >
+                <label for="radio-5" class="radio-label">Inactive</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn text-dark update">Salvar</button>
+        </div>
+
+    </div>
+</form>
