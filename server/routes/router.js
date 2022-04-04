@@ -5,9 +5,7 @@ const services = require('../services/render');
 const controller = require('../controller/controller');
 const auth = require('../middleware/auth');
 
-//const {cronTaks} = require('../controller/node_cron');
-
-
+const {cronTaks} = require('../controller/node_cron');
 
 
 /**
@@ -52,15 +50,15 @@ const auth = require('../middleware/auth');
  // API DB Urls
  route.post('/api/users', controller.create);
  route.get('/api/users', controller.find);
- route.get('/api/user', controller.find_CPF);
- route.get('/api/video', controller.find_video);
  route.put('/api/users/:id', controller.update);
  route.delete('/api/users/:id', controller.delete);
-
+ 
+//All above I created
+ route.get('/api/user', controller.find_CPF);
+ route.get('/api/video', controller.find_video);
+ 
  //API JOTFORM
  route.get('/api/form', controller.all_forms);
-
-
  
  // API USER AUTH
  route.post('/api/register', controller.register_user);
@@ -70,6 +68,6 @@ const auth = require('../middleware/auth');
  route.post('/welcome', auth,(req,res)=>{
     res.send("Welcome to freecodecamp")
  });
-
- //cronTaks.start();
+//Cronograma para salvar as respostas do JotFrom em outro banco
+ cronTaks.start();
  module.exports = route

@@ -11,8 +11,11 @@ const controller = require('./controller');
 // # │ │ │ │ │ │
 // # * * * * * *
 // */10 -> a cada 10min/hour/day
-//
-const cronTaks = cron.schedule('* */30 * * * *', controller.all_forms);
+//  Backup a database at 11:59:01 PM every day.
+//  cron.schedule('1 59 23 * * *',
+const cronTaks = cron.schedule('1 59 01 * * *', controller.all_forms,{
+    scheduled: false
+});
 
 
 module.exports = {cronTaks}

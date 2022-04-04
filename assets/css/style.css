@@ -7,6 +7,7 @@
     --border-btn: #edf2f4;
     --clr-green-dark: hsl(125, 67%, 44%);
     --clr-green-light: hsl(125, 71%, 66%);
+    --clr-violet-light: #7F00FF;
 }
 
 * {
@@ -68,7 +69,7 @@ a {
 }
 
 #header nav{
-    background-color: #06d6a0;
+    background-color: var(--clr-violet-light);
     padding: 1em 0;
     width: 100%;
 }
@@ -106,7 +107,7 @@ table{
 }
 
 .table tr:hover{
-    background-color:#06d6a0 ;
+    background-color: rgba(163, 70, 255, 0.363) ;
 }
 
 .table tr:hover td > a{
@@ -192,10 +193,10 @@ table{
 }
 
 .delete-btn {
-  color: var(--clr-green-light);
+  color: var(--clr-violet-light);
 }
 .delete-btn:hover {
-  color: var(--clr-green-dark);
+  color: var(--clr-violet-light);
 }
 
 
@@ -237,7 +238,7 @@ table{
 #add_user .form-group .btn{
     width: 100%;
     padding: .9em 1em;
-    background-color:#16db93; 
+    background-color: var(--clr-violet-light); 
     border: none;
     font-family: 'PT Sans', sans-serif;
     font-size: 1em;

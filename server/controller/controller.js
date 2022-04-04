@@ -65,8 +65,6 @@ exports.find = (req, res)=>{
                 res.status(500).send({ message : err.message || "Error Occurred while retriving doctor information" })
             })
     }
-
-    
 }
 
 exports.find_CPF = (req,res) =>{
@@ -235,35 +233,46 @@ exports.login_user = async (req,res) =>{
 exports.all_forms = async (req,res) =>{
     try {
         const form = await utilJotform.makeRequest();
-        
-        for(let i =0; i<form.length; i++){
-            let answer_id = form[i].id
-            let created_at = form[i].created_at
-            let answer = [];
-            for(const property in form[i].answers ){
-                let valuesForm = {[property]: [form[i].answers[property]]}
-                answer.push(valuesForm);
-            }
-
-            const jotform = new JotFormdb({
-                answer_id : answer_id,
-                created_at : created_at,
-                answers   : answer
-            });
-
-            await jotform
-                .save(jotform)
-                .then(data => {
-                    console.log('Answer Saved!')
-                })
-                .catch(err =>{
-                    res.status(500).send(err);
-                })
-                
+        console.log(form)
+        if(!form){
+            console.log('no update');
+            res.status(406).send('No update');
+            return
         }
-        res.status(201).send('All answers saved.')
+        if(form){
+            for(let i =0; i<form.length; i++){
+                let answer_id = form[i].id
+                let created_at = form[i].created_at
+                let answer = [];
+                for(const property in form[i].answers ){
+                    let valuesForm = {[property]: [form[i].answers[property]]}
+                    answer.push(valuesForm);
+                }
+    
+                const jotform = new JotFormdb({
+                    answer_id : answer_id,
+                    created_at : created_at,
+                    answers   : answer
+                });
+    
+                await jotform
+                    .save(jotform)
+                    .then(data => {
+                        console.log('Answer Saved!')
+                    })
+                    .catch(err =>{
+                        res.status(500).send(err);
+                    })
+            }
+            res.status(201).send('All answers saved.');
+            return;
+        }
+        /*
+        
+        */
+       
     } catch (error) {
-        res.status(404).send(error);
+        res.status(404).send(error.message);
     }
 }
 
