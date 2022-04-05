@@ -15,8 +15,10 @@ A estrutura básica do CRUD para o projeto foi criada a partir do seguinte tutor
 ### Implemetanções
 Busca por CPF do médico e geração dos links contendo o vídeo
 ![Busca por CPF e Geração do link](imgs/Busca_GerarURL.png)
+
 Nova página com o Jotform + Vídeo Youtube
 ![Nova página: Jotform + Vídeo Youtube](imgs/novaPagina.png)
+
 Adicionar e remover URLs de um determinado médico
 ![Adicionar novas URLs](imgs/addMoreURL.png)
 
