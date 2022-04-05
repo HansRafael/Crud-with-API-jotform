@@ -13,8 +13,11 @@ Aproveitei o projeto para também desenvolver mais minhas habilidades no Backend
 A estrutura básica do CRUD para o projeto foi criada a partir do seguinte tutorial disponível gratuitamente no [Youtube](https://www.youtube.com/watch?v=W1Kttu53qTg&t=2s). Entretanto, as demais funcionalidades foram implementadas por mim como uma maneira de aprofundar meus conhecimentos :)
 
 ### Implemetanções
+Busca por CPF do médico e geração dos links contendo o vídeo
 ![Busca por CPF e Geração do link](imgs/Busca_GerarURL.png)
+Nova página com o Jotform + Vídeo Youtube
 ![Nova página: Jotform + Vídeo Youtube](imgs/novaPagina.png)
+Adicionar e remover URLs de um determinado médico
 ![Adicionar novas URLs](imgs/addMoreURL.png)
 
 
