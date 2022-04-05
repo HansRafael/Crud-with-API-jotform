@@ -278,10 +278,6 @@ exports.all_forms = async (req,res) =>{
             res.status(201).send('All answers saved.');
             return;
         }
-        /*
-        
-        */
-       
     } catch (error) {
         res.status(404).send(error.message);
     }

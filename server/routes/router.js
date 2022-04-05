@@ -7,7 +7,6 @@ const auth = require('../middleware/auth');
 
 const {cronTaks} = require('../controller/node_cron');
 
-
 /**
  *  @description Root Route
  *  @method GET /
@@ -33,13 +32,13 @@ const {cronTaks} = require('../controller/node_cron');
  route.get('/login', services.login_user)
 
   /**
-  *  @description method search a user by our cpf
+  *  @description method search a user by cpf
   *  @method GET /searchCPF
   */
  route.get('/search',services.search_cpf)
 
    /**
-  *  @description form doctors
+  *  @description 
   *  @method GET /
   */
  route.get('/form',services.survey_form)

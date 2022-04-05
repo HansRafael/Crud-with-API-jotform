@@ -3,14 +3,23 @@
 ###### 04/04/2022
 A seguinte aplicação está sendo desenvolvida para um projeto em que participo em parceria da Emprapii com a unidade [ITEC/FURG](https://embrapii.org.br/unidades/unidade-embrapii-em-sistema-roboticos-e-automacao-itec-furg-centro-em-ciencia-de-dados-e-robotica-da-universidade-federal-do-rio-grande/). No projeto, busca-se uma maneira de conseguir gerar formulários com diferentes vídeos do mesmo médico, o qual será enviado ao paciente. Assim, o paciente receberá um questionário específico com um vídeo específico. 
 
-Aproveitei o projeto para também desenvolver mais minhas habilidades no Backend, utilizando ```nodeJs```, ```express```, ```MVC pattern``` .Atualmente, foram implementados os seguintes recursos:
+Aproveitei o projeto para também desenvolver mais minhas habilidades no Backend, utilizando ```nodeJs```, ```express```, ```MVC pattern``` dentre outras ferramentas. Atualmente, foram implementados os seguintes recursos:
 
 - ```CRUD``` em ```nodeJs``` para o controle das URLs dos vídeos dos médicos
 - Integração com a API do Jotform
 - Geração de links contendo o formulário e o vídeo cadastrado
 - ```Schedule``` com o ```node-cron``` para salvar novas respostas do formulário em um novo banco de dados (no momento ```MongoDB```)
 
-## Rodando localmente:
+A estrutura básica do CRUD para o projeto foi criada a partir do seguinte tutorial disponível gratuitamente no [Youtube](https://www.youtube.com/watch?v=W1Kttu53qTg&t=2s). Entretanto, as demais funcionalidades foram implementadas por mim como uma maneira de aprofundar meus conhecimentos :)
+
+### Implemetanções
+![Busca por CPF e Geração do link](imgs/Busca_GerarURL.png)
+![Nova página: Jotform + Vídeo Youtube](imgs/novaPagina.png)
+![Adicionar novas URLs](imgs/addMoreURL.png)
+
+
+
+## Instalação
 Inicialmente, instale as dependências:
 - ```npm i```
 
@@ -29,36 +38,47 @@ Depois de colocar suas credencias, basta subir o servidor!
 - ```npm run dev```
 - acessar, em seu navegador: ```http://localhost:3000/```
 
-## Heroku
+### Heroku
 
 Você também pode acessar a aplicação na plataforma
 [Heroku](https://medlifecrud.herokuapp.com/)
 
+## Packages
+Abaixo, irei descrever o uso de alguns packages que considero mais "importantes" e que não foram implementados diretamente através do tutorial.
 
+### MVC
+Para a criação e controle das rotas, foi utilizado o ```express``` juntamente com o patrão de ```Model–View–Controller```
 
-```bash
-pip install foobar
+```javascript
+const express = require('express');
+const app = express();
+
+// load routers
+app.use('/', require('./server/routes/router'));
 ```
 
-## Usage
+Já para o controle das Views, utilizou-se o package ```ejs```
 
-```python
-import foobar
+```javascript
+app.set("view engine", "ejs")
 
-# returns 'words'
-foobar.pluralize('word')
-
-# returns 'geese'
-foobar.pluralize('goose')
-
-# returns 'phenomenon'
-foobar.singularize('phenomena')
+//load assets
+app.use('/css', express.static(path.resolve(__dirname, "assets/css")))
+app.use('/img', express.static(path.resolve(__dirname, "assets/img")))
+app.use('/js', express.static(path.resolve(__dirname, "assets/js")))
 ```
 
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+### Rotas e serviços criados 
 
-Please make sure to update tests as appropriate.
+```javascript
+//services
+route.get('/search',services.search_cpf)
+route.get('/form',services.survey_form)
 
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+//controller
+route.get('/api/user', controller.find_CPF);
+route.get('/api/video', controller.find_video);
+
+//controler to acess API Jotform
+route.get('/api/form', controller.all_forms); 
+```
