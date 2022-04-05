@@ -1,4 +1,4 @@
-const urlLocal = "http://localhost:3000/";
+const urlLocal = "http://localhost:3000/"; //https://medlifecrud.herokuapp.com/
 let cont = 0
 
 $(document).on('click', '.addService', function(){

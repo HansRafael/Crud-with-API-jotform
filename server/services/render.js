@@ -1,5 +1,5 @@
 const axios = require('axios');
-const urlLocal = "http://localhost:3000/";
+const urlLocal = "http://localhost:3000/"; //https://medlifecrud.herokuapp.com/
 
 
 exports.homeRoutes = (req, res) => {
@@ -17,24 +17,26 @@ exports.add_user = (req, res) =>{
     res.render('add_user');
 }
 
+
+exports.update_user = (req, res) =>{
+    axios.get(urlLocal + 'api/users', { params : { id : req.query.id }})
+    .then(function(userdata){
+        res.render("update_user", { user : userdata.data})
+    })
+    .catch(err =>{
+        res.send(err);
+    })
+}
+
 exports.survey_form = (req,res) => {
-    axios.get(urlLocal + 'api/video', {params : {id : req.query.id , video : req.query.video}})
+    axios.get(urlLocal + 'api/video', {params : {id : req.query.id , video : req.query.video - 1}})
     .then(function(userdata){
         res.render('survey_form', { urls : userdata.data})
     })
     .catch(err =>{
-        res.render('searchCPF',{users : {url : ['1']}} );
+        const message = err.response.data.message
+        res.render('errorNotFound',{message : message});
     })
-}
-
-exports.update_user = (req, res) =>{
-    axios.get(urlLocal + 'api/users', { params : { id : req.query.id }})
-        .then(function(userdata){
-            res.render("update_user", { user : userdata.data})
-        })
-        .catch(err =>{
-            res.send(err);
-        })
 }
 
 exports.search_cpf = (req,res) => {
@@ -43,7 +45,8 @@ exports.search_cpf = (req,res) => {
         res.render('searchCPF', { users : userdata.data})
     })
     .catch(err =>{
-        res.render('searchCPF',{users : {url : ['1']}} );
+        const message = err.response.data.message
+        res.render('errorNotFound',{message : message});
     })
 }
 

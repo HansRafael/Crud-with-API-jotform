@@ -16,15 +16,22 @@
             <div class="form-group">
                 <form action="/search" id="search_cpf">
                     <label for="cpf" class="text-dark">Busca por CPF: </label>
-                    <input type="text" required placeholder="seu CPF (apenas números)" name="id"
-                    pattern="[0-9]{11}"
-                    oninvalid="this.setCustomValidity('Digite um CPF válido')"
-                    oninput="this.setCustomValidity('')">
+                    <input type="text" required placeholder="CPF (apenas números)" name="id">
                     <button type="submit"><i class="fa fa-search"></i></button>
-                
+                    
                 </form>
             </div>
-
+            
+            <div class="form-group">
+                <form action="/form" id="create_url">
+                    
+                    <label for="cpf" class="text-dark">Gerar URL video + JotForm</label>
+                    <input type="text" required placeholder="CPF (apenas números)" pattern="[0-9]{11}" name="id">
+                    <input type="text" required placeholder="Número vídeo" pattern="[0-9]" name="video">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+                <h4>OBS: Vídeo precisa ser estar com o '/embed/': https://www.youtube.com/embed/example</h4>
+            </div>
             <!-- form handling -->
             <form action="/" method="POST">
                 <table class="table">

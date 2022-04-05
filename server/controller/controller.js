@@ -67,16 +67,19 @@ exports.find = (req, res)=>{
     }
 }
 
-exports.find_CPF = (req,res) =>{
+exports.find_CPF = async (req,res) =>{
     if(req.query.id){
+        const queryObject = {};
         const id = req.query.id;
+        queryObject.cpf = {$regex:id, $options: 'i'};
     
-        Userdb.findOne({cpf:id})
+        await Userdb.find(queryObject)
             .then(data =>{
-                if(!data){
+                if(data.length === 0){
                     res.status(404).send({ message : "Not found doctor with cpf "+ id})
                 }else{
-                    res.send(data)
+                    console.log(data);
+                    res.send(data);
                 }
             })
             .catch(err =>{
@@ -88,21 +91,29 @@ exports.find_CPF = (req,res) =>{
     }
 }
 
-exports.find_video = (req,res) => {
+exports.find_video = async (req,res) => {
     if(req.query.id && req.query.video){
         const id = req.query.id;
         const video = req.query.video;
 
-        Userdb.findOne({cpf:id})
+        await Userdb.findOne({cpf:id})
             .then(data =>{
                 if(!data){
-                    res.status(404).send({message: "Not found doctor with cpf" + id})
+                    res.status(404).send({message: "Not found doctor with cpf " + id})
                 } else {
-                    res.send(data.url[video])
+                    if(data.url[video]){
+                        res.send(data.url[video])
+                    }
+                    if(!data.url[video]){
+                        let numVideo = Number(video) + 1
+                        res.status(404).send({message: "Not found video with id " + numVideo})
+            
+                    } 
+
                 }
             })
             .catch(err => {
-                res.status(500).send({message: "error retrieving doctor with cpf "+ id})
+                res.status(404).send(err);
             })
     }else{
         res.status(500).send({messega: "error: must cpf and video"})

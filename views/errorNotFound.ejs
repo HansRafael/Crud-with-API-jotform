@@ -21,35 +21,12 @@
             
             </form>
         </div>
+        
+        <div class="form-title text-center">
+            <h2 class="text-dark">Busca Jotform</h2>
+            <h2 class="text-dark"><%= message%></h2>
+        </div>
 
-        <div class="form-title text-center">
-            <h2 class="text-dark">Busca medico</h2>
-        </div>
-        <% if(users.length !== 0) { %>
-        <form action="/searchCPF" method="POST">
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>@Url</th>
-                        <th>CPF</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                
-                <tbody>
-                    <%- include('include/_show') %>
-                </tbody>
-                
-            </table>
-        </form>
-        <% } else {%>
-        <div class="form-title text-center">
-            <h2 class="text-dark">CPF não encontrado!</h2>
-        </div>
-        <% } %>
     </div>
 </main>
 <!-- /Main Site -->
