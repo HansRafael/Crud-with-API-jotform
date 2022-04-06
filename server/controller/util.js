@@ -25,6 +25,7 @@ exports.makeRequest = async () =>{
     }
 }
 
+//Get the previous day 
 const formatedTimestamp = ()=> {
     const today = new Date();
     const yestarday = new Date(today)

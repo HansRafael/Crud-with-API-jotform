@@ -71,8 +71,8 @@ exports.find_CPF = async (req,res) =>{
     if(req.query.id){
         const queryObject = {};
         const id = req.query.id;
-        queryObject.cpf = {$regex:id, $options: 'i'};
-    
+        queryObject.cpf = {$regex:id, $options: 'i'}; //Objeto com a key cpf e o 
+                                                     //regex contendo o CPF da busca
         await Userdb.find(queryObject)
             .then(data =>{
                 if(data.length === 0){
@@ -102,7 +102,7 @@ exports.find_video = async (req,res) => {
                     res.status(404).send({message: "Not found doctor with cpf " + id})
                 } else {
                     if(data.url[video]){
-                        res.send(data.url[video])
+                        res.send(data.url[video]) //send just the required URL
                     }
                     if(!data.url[video]){
                         let numVideo = Number(video) + 1
@@ -244,29 +244,27 @@ exports.login_user = async (req,res) =>{
 exports.all_forms = async (req,res) =>{
     try {
         const form = await utilJotform.makeRequest();
-        console.log(form)
         if(!form){
-            console.log('no update');
             res.status(406).send('No update');
             return
         }
         if(form){
-            for(let i =0; i<form.length; i++){
-                let answer_id = form[i].id
+            for(let i =0; i<form.length; i++){  //percorre o Array contendo cada uma dos
+                let answer_id = form[i].id     //objetos que, nesse caso, são os dados do formulário
                 let created_at = form[i].created_at
-                let answer = [];
-                for(const property in form[i].answers ){
+                let answer = [];               //As respotas são salvas dentro de uma outra array, para facilitar a consulta
+                for(const property in form[i].answers ){ 
                     let valuesForm = {[property]: [form[i].answers[property]]}
-                    answer.push(valuesForm);
+                    answer.push(valuesForm);       //cada resposta vira um objeto dentro do array 'answer'
                 }
-    
-                const jotform = new JotFormdb({
+
+                const jotform = new JotFormdb({ //criação do model no mongoose
                     answer_id : answer_id,
                     created_at : created_at,
                     answers   : answer
                 });
     
-                await jotform
+                await jotform   //salva no mongoDB
                     .save(jotform)
                     .then(data => {
                         console.log('Answer Saved!')

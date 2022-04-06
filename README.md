@@ -3,7 +3,7 @@
 ###### 04/04/2022
 A seguinte aplicação está sendo desenvolvida para um projeto em que participo em parceria da Emprapii com a unidade [ITEC/FURG](https://embrapii.org.br/unidades/unidade-embrapii-em-sistema-roboticos-e-automacao-itec-furg-centro-em-ciencia-de-dados-e-robotica-da-universidade-federal-do-rio-grande/). No projeto, busca-se uma maneira de conseguir gerar formulários com diferentes vídeos do mesmo médico, o qual será enviado ao paciente. Assim, o paciente receberá um questionário específico com um vídeo específico. 
 
-Aproveitei o projeto para também desenvolver mais minhas habilidades no Backend, utilizando ```nodeJs```, ```express```, ```MVC pattern``` dentre outras ferramentas. Atualmente, foram implementados os seguintes recursos:
+Aproveitei o projeto para também desenvolver mais minhas habilidades no Backend, utilizando ```nodeJs```, ```express```, ```MVC pattern``` dentre outras ferramentas. Ademais, tentei colocar em prática os conceitos teóricos aprendidos. Atualmente, foram implementados os seguintes recursos:
 
 - ```CRUD``` em ```nodeJs``` para o controle das URLs dos vídeos dos médicos
 - Integração com a API do Jotform
@@ -174,3 +174,62 @@ const formatedTimestamp = ()=> {
     return `${date} ${time}`
   }
 ```
+
+Agora, dentro da ```controller``` a função será chamada de maneira assíncrona. Caso não tenha nenhuma nova resposta no meu formulário requisitado, ele irá retornar 0. Assim, nenhum dado será passado. Caso contrário, as respostas serão salvas no MongoDB. 
+
+Dentro da condição ```if(form)```, embora tenha um laço dentro de outro laço, sua complexidade não é O(n²), visto que, dependendo do número 'N' formulários recebidos, o número de Respostas é constante, não dependendo do formulário que é recebido. Por exemplo, se cada formulário tem apenas 5 perguntas, ele irá retornar 5 respostas. Em N formulários recebidos, essa função iria repetir N*5 => O(n). Obviamente, estou levando em conta que, o número de perguntas é finito, diferente do número de formulários que pode ser N.
+
+
+```javascript
+exports.all_forms = async (req,res) =>{
+    try {
+        const form = await utilJotform.makeRequest();
+        if(!form){
+            res.status(406).send('No update');
+            return
+        }
+        if(form){
+            for(let i =0; i<form.length; i++){  //percorre o Array contendo cada uma dos
+                let answer_id = form[i].id     //objetos que, nesse caso, são os dados do formulário
+                let created_at = form[i].created_at
+                let answer = [];               //As respotas são salvas dentro de uma outra array, para facilitar a consulta
+                for(const property in form[i].answers ){ 
+                    let valuesForm = {[property]: [form[i].answers[property]]}
+                    answer.push(valuesForm);       //cada resposta vira um objeto dentro do array 'answer'
+                }
+
+                const jotform = new JotFormdb({ //criação do model no mongoose
+                    answer_id : answer_id,
+                    created_at : created_at,
+                    answers   : answer
+                });
+    
+                await jotform   //salva no mongoDB
+                    .save(jotform)
+                    .then(data => {
+                        console.log('Answer Saved!')
+                    })
+                    .catch(err =>{
+                        res.status(500).send(err);
+                    })
+            }
+            res.status(201).send('All answers saved.');
+            return;
+        }
+    } catch (error) {
+        res.status(404).send(error.message);
+    }
+}
+```
+
+Por fim, temos a função criada com o ```node-cron``` que realiza a agenda/'Schedule' periodicamente. Nesse caso, a função ```all_forms``` será chamada todos os dias as 01:59:01. Coloquei a chamda da Schedule dentro de ```server/routes/router.js```
+
+```javascript
+const cronTaks = cron.schedule('1 59 01 * * *', controller.all_forms,{
+    scheduled: false
+});
+```
+
+### Mocha/testes
+
+em produção...
